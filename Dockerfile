@@ -1,11 +1,14 @@
 FROM alpine:3.17.2 as build
 #updating apk and installing maven
-RUN apk update
-RUN apk add maven
+RUN apk update && apk add maven
 #determine work directory 
 WORKDIR /app
 #Move the source code to the working directory
-COPY . .
+#COPY . .
+COPY .mvn/ .mvn
+COPY mvnw ./
+COPY pom.xml ./
+COPY src ./src
 #Run the executable script to install all the dependencies
 RUN ./mvnw package
 
