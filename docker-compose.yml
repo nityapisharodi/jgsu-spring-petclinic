@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   petclinic:
-    depends_on:
-      - mysql
+    
     image: nityansp/petclinic:1.1
     ports:
       - "8081:8080"
