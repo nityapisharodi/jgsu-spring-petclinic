@@ -1,0 +1,9 @@
+
+control:
+  hosts:
+    nitya@Nityas-MacBook-Pro:
+      ansible_connection: local
+all:
+  hosts:
+    becode@vmsdt-pisharodi.becode.org:
+  
