@@ -1,0 +1,43 @@
+# To install pip, Docker, Docker compose, Docker SDK for Python and all corresponding dependencies
+# Also creating the group docker and adding user to the group
+# Copying the petclinic application repo from source machine(local) to host machine (VM)
+# Additionally deploying the petclinic application using docker compose 
+
+- name: VM configuration
+  hosts: all
+  become: true 
+  gather_facts: false
+  #become_user: becode
+  vars:
+    docker_user: becode
+    docker_group: docker
+
+  tasks:
+  # Method: 1 Copying repo from local machine to host machine
+    
+    - name: Copying the petclinic application to remote machine
+      ansible.builtin.copy:
+        owner: becode
+        src: /Users/nitya/Docker_Workspace/Webapp/jgsu-spring-petclinic/docker-compose.yml
+        dest: /home/becode/jgsu-spring-petclinic/docker-compose.yml
+      when: false
+
+  # Method: 2 Cloning the repo from github
+    - name: Cloning the petclinic repo from github
+      ansible.builtin.git:
+       # owner: becode
+        repo: https://github.com/nityapisharodi/jgsu-spring-petclinic.git
+        dest: /home/becode/jgsu-spring-petclinic
+        clone: yes
+        #version: master
+      when: false
+
+
+  # Running the 'docker compose up'
+
+    - name: Petclinic container
+      community.docker.docker_compose:
+        project_src: jgsu-spring-petclinic
+        project_name: jgsu-spring-petclinic
+        state: present
+      when: false
