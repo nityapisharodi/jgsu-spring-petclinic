@@ -18,7 +18,7 @@
         name: python3-pip
         state: present
         update_cache: yes
-      when: true
+      when: false
     
     - name: Installing system packages needed for docker 
       ansible.builtin.apt: 
@@ -30,19 +30,19 @@
         - curl 
         - gnupg
         - lsb-release
-      when: true
+      when: false
 
     - name: Add Docker’s official GPG key
       ansible.builtin.apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
-      when: true
+      when: false
 
     - name: Setting up repo for docker
       ansible.builtin.apt_repository:
         repo: deb https://download.docker.com/linux/ubuntu bionic stable
         
-      when: true
+      when: false
 
     - name: Instaling docker
       apt:
@@ -52,7 +52,7 @@
         - docker-ce
         - docker-ce-cli
         - docker-compose-plugin
-      when: true
+      when: false
 
    # Manage Docker as a non-root user 
 
@@ -60,6 +60,9 @@
       group:
         name: "{{ docker_group }}"
         state: present
+      become: yes
+      #become_user: "{{ docker_user }}"
+      #become_method: sudo
       when: true
 
     - name: Adding user and to docker group
@@ -68,6 +71,9 @@
         groups: "{{ docker_group }}"
         state: present
         append: yes
+      #become: yes
+      #become_user: "{{ docker_user }}"
+      become_method: sudo
       when: true
 
     - name: Install Docker SDK for python
@@ -78,7 +84,7 @@
         - docker
         - docker-compose
         - jsondiff
-      when: true
+      when: false
 
   # Method: 1 Copying repo from local machine to host machine
     
@@ -97,7 +103,7 @@
         dest: /home/becode/jgsu-spring-petclinic
         clone: yes
         #version: master
-      when: true
+      when: false
 
 
   # Running the 'docker compose up'
@@ -107,4 +113,4 @@
         project_src: jgsu-spring-petclinic
         project_name: jgsu-spring-petclinic
         state: present
-      when: true
+      when: false
